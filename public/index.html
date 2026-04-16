@@ -113,7 +113,7 @@ async function submitEmail() {
     error.style.display = "none";
   }
 
-  const res = await fetch("http://localhost:3000/save-number", {
+  const res = await fetch("https://glowspace-1hgg.onrender.com/save-number", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({ number: email }) // backend still receives "number"
