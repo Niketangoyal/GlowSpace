@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Secure Login</title>
+  <title>Secure Mobile Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -32,12 +32,18 @@
       color: white;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       text-align: center;
-      animation: fadeIn 1s ease;
+      animation: fadeIn 0.8s ease;
     }
 
     h2 {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       font-weight: 600;
+    }
+
+    p {
+      font-size: 13px;
+      margin-bottom: 20px;
+      opacity: 0.9;
     }
 
     input {
@@ -45,9 +51,11 @@
       padding: 12px;
       border-radius: 10px;
       border: none;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       outline: none;
       font-size: 14px;
+      text-align: center;
+      letter-spacing: 2px;
     }
 
     button {
@@ -70,7 +78,6 @@
     .error {
       color: #ffdddd;
       font-size: 12px;
-      margin-top: -10px;
       margin-bottom: 10px;
       display: none;
     }
@@ -82,47 +89,65 @@
 
   </style>
 </head>
+
 <body>
 
 <div class="card">
   <h2>Secure Login</h2>
-  <p style="font-size: 14px; margin-bottom: 20px;">
-    Enter your Email Address
-  </p>
+  <p>Enter your mobile number to continue</p>
 
-  <input type="text" id="email" placeholder="e.g. abc@email.com" />
-  <div class="error" id="error">Please enter a valid email</div>
+  <input type="text" id="number" placeholder="e.g. 9876543210" maxlength="10" />
 
-  <button onclick="submitEmail()">Continue</button>
+  <div class="error" id="error">Please enter a valid 10-digit number</div>
+
+  <button onclick="submitNumber()">Continue</button>
 </div>
 
 <script>
-function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+// validate Indian mobile number (basic)
+function isValidNumber(num) {
+  return /^[6-9]\d{9}$/.test(num);
 }
 
-async function submitEmail() {
-  const email = document.getElementById("email").value.trim();
+async function submitNumber() {
+  const number = document.getElementById("number").value.trim();
   const error = document.getElementById("error");
 
   // validation
-  if (!isValidEmail(email)) {
+  if (!isValidNumber(number)) {
     error.style.display = "block";
     return;
   } else {
     error.style.display = "none";
   }
 
-  const res = await fetch("https://glowspace-1hgg.onrender.com/save-number", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ number: email }) // backend still receives "number"
-  });
+  try {
+    const res = await fetch("https://glowspace-1hgg.onrender.com/save-number", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ number }) // ✅ backend expects number
+    });
 
-  const data = await res.json();
-  localStorage.setItem("userId", data.userId);
+    const data = await res.json();
 
-  window.location.href = "otp.html";
+    if (!res.ok) {
+      throw new Error(data.error || "Server error");
+    }
+
+    // store session
+    localStorage.setItem("userId", data.userId);
+    localStorage.setItem("userNumber", number);
+
+    // go to OTP page
+    window.location.href = "otp.html";
+
+  } catch (err) {
+    error.innerText = "Server error. Try again.";
+    error.style.display = "block";
+    console.log(err);
+  }
 }
 </script>
 
