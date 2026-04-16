@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secure Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px;
+      width: 340px;
+      color: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 20px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #fff;
+      color: #333;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #f1f1f1;
+    }
+
+    .error {
+      color: #ffdddd;
+      font-size: 12px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Secure Login</h2>
+  <p style="font-size: 14px; margin-bottom: 20px;">
+    Enter your Email Address
+  </p>
+
+  <input type="text" id="email" placeholder="e.g. abc@email.com" />
+  <div class="error" id="error">Please enter a valid email</div>
+
+  <button onclick="submitEmail()">Continue</button>
+</div>
+
+<script>
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+async function submitEmail() {
+  const email = document.getElementById("email").value.trim();
+  const error = document.getElementById("error");
+
+  // validation
+  if (!isValidEmail(email)) {
+    error.style.display = "block";
+    return;
+  } else {
+    error.style.display = "none";
+  }
+
+  const res = await fetch("http://localhost:3000/save-number", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ number: email }) // backend still receives "number"
+  });
+
+  const data = await res.json();
+  localStorage.setItem("userId", data.userId);
+
+  window.location.href = "otp.html";
+}
+</script>
+
+</body>
+</html>

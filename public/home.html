@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Welcome</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.navbar a {
+  text-decoration: none;
+  margin-left: 20px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.hero button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.hero button:hover {
+  transform: scale(1.05);
+}
+
+/* Cards */
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  width: 220px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <div class="logo">GlowSpace ✨</div>
+  <div>
+    <a href="#">Home</a>
+    <a href="#">Explore</a>
+    <a href="#">Profile</a>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>Welcome to Your Space 💫</h1>
+  <p>Discover inspiration, style, and positivity every day</p>
+  <button>Explore Now</button>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <h3>🌸 Self Care</h3>
+    <p>Relax, recharge, and glow better</p>
+  </div>
+
+  <div class="card">
+    <h3>🛍️ Trends</h3>
+    <p>Stay updated with latest styles</p>
+  </div>
+
+  <div class="card">
+    <h3>💡 Ideas</h3>
+    <p>Creative inspiration for daily life</p>
+  </div>
+</div>
+
+</body>
+</html>
